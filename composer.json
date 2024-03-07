@@ -1,0 +1,14 @@
+{
+    "name": "luke/phpfw",
+    "type": "project",
+    "require-dev": {
+        "symfony/http-foundation": "^7.0",
+        "symfony/var-dumper": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Luke\\Phpfw\\": "src/"
+        }
+    },
+    "require": {}
+}
