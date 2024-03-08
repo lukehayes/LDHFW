@@ -2,24 +2,14 @@
 
 namespace LDH\Middleware;
 
-use LDH\Middleware\Middleware;
-use LDH\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 class PassThruMiddleware implements Middleware
 {
-    /**
-     * Handle the current request then past to the next middleware.
-     *
-     * @param Request
-     *
-     * @return Request
-     */
-    public function next(Request $request) : Request
+    public function __invoke(Request $request)
     {
-        $request->server->add([1]);
-
-        dump($request->server);
-
-        return $request;
+        dump(__CLASS__);
     }
 }
+
+

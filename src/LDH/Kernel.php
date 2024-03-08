@@ -2,21 +2,34 @@
 
 namespace LDH;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use LDH\Middleware\Middleware;
 
 class Kernel
 {
-    /** @var middleware[] */
-    private $middleware = [];
-
-    public function __construct()
+    public function __construct(
+        private $middleware = []
+    )
     {
+    }
+
+    /**
+     * Add a new middleware.
+     *
+     * @param Middleware       $middleware      The middleware to be added.
+     *
+     * @return
+     */
+    public function addMiddleware(Middleware $middleware)
+    {
+        array_push($this->middleware, $middleware);
     }
 
     /**
      * Start the application process.
      *
-     * @param Reqeust $request.
+     * @param Request       $request      The current HTTP request.
      *
      * @return Response
      */
@@ -27,19 +40,19 @@ class Kernel
         $content = "<p>Loaded</p>";
         $response = new Response($content);
 
-        return $response;
+        return $response->send();
     }
 
     /**
      * Run every instance of middleware that has been defined.
      *
-     * @param Reqeust $request.
+     * @param Request       $request      The current HTTP request.
      */
     public function runMiddleware(Request $request)
     {
         foreach($this->middleware as $middleware)
         {
-            $middleware->next($request);
+            $middleware($request);
         }
     }
 }

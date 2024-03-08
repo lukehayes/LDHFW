@@ -2,7 +2,7 @@
 
 namespace LDH\Middleware;
 
-use LDH\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 interface Middleware
 {
@@ -13,5 +13,5 @@ interface Middleware
      *
      * @return Request
      */
-    public function next(Request $request) : Request;
+    public function __invoke(Request $request);
 }
