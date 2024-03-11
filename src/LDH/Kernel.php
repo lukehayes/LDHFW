@@ -9,7 +9,8 @@ use LDH\Middleware\Middleware;
 class Kernel
 {
     public function __construct(
-        private $middleware = []
+        private $middleware = [],
+        public $router = new Router()
     )
     {
     }
@@ -37,10 +38,23 @@ class Kernel
     {
         $this->runMiddleware($request);
 
-        $content = "<p>Loaded</p>";
-        $response = new Response($content);
+        $routes = include "../app/routes.php";
+        $this->router->setApplicationRoutes($routes);
 
-        return $response->send();
+        $routeFound = array_filter($routes, function($route) use($request)
+        {
+            if($route->getPath() == $request->getRequestUri())
+            {
+                return $route;
+            }
+        });
+
+
+        $currentRoute = $currentRoute[0];
+        $controller   = $currentRoute->getController();
+        $action       = $currentRoute->getAction();
+
+        return (new $controller)->$action();
     }
 
     /**
@@ -55,4 +69,5 @@ class Kernel
             $middleware($request);
         }
     }
+
 }
