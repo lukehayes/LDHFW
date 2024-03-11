@@ -9,7 +9,8 @@
 
     "autoload": {
         "psr-4": {
-            "LDH\\": "src/LDH"
+            "LDH\\": "src/LDH",
+            "App\\": "app"
         }
     },
 
