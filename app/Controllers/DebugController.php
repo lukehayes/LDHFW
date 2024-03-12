@@ -2,21 +2,25 @@
 
 namespace App\Controllers;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class DebugController
 {
 
 	public function __construct()
 	{
-		dump(__CLASS__);
+		//dump(__CLASS__);
 	}
 
 	public function index()
 	{
-		dump(__CLASS__, __METHOD__);
+		$response = new Response(__METHOD__);
+		return $response;
 	}
 
 	public function test()
 	{
-		dump(__CLASS__, __METHOD__);
+		$response = new Response(__METHOD__);
+		return $response;
 	}
 }
