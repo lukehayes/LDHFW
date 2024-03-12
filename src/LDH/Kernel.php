@@ -38,21 +38,24 @@ class Kernel
     {
         $this->runMiddleware($request);
 
-        $routes = include "../app/routes.php";
+        $routes = require_once "../app/routes.php";
         $this->router->setApplicationRoutes($routes);
 
-        $routeFound = array_filter($routes, function($route) use($request)
+        $uri = $request->getRequestUri();
+        $routeObject = null;
+
+        foreach($routes as $route)
         {
-            if($route->getPath() == $request->getRequestUri())
+            if($route->getPath() == $uri)
             {
-                return $route;
+                $routeObject = $route;
+                break;
             }
-        });
+        }
 
 
-        $currentRoute = $currentRoute[0];
-        $controller   = $currentRoute->getController();
-        $action       = $currentRoute->getAction();
+        $controller   = $routeObject->getController();
+        $action       = $routeObject->getAction();
 
         return (new $controller)->$action();
     }
