@@ -53,6 +53,11 @@ class Kernel
             }
         }
 
+        // TODO Quick and dirty error check. Fix later.
+        if(is_null($routeObject))
+        {
+            die('No route found for ' . $request->getRequestUri());
+        }
 
         $controller   = $routeObject->getController();
         $action       = $routeObject->getAction();
